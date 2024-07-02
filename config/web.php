@@ -44,8 +44,8 @@ $config = [
         'db' => $db,
 
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            // 'enablePrettyUrl' => true,
+            // 'showScriptName' => false,
             'rules' => [
                 'lien-he.html' => 'site/contact', // Replace 'site/contact' with your actual controller/action
 
