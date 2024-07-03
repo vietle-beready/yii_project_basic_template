@@ -1,5 +1,4 @@
 <?php
-
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -15,6 +14,9 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'UaBspqxza96xuVONTxX8icaCZNYI-cyv',
+            'parsers' => [
+                'application/json' => yii\web\JsonParser::class,
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -44,8 +46,8 @@ $config = [
         'db' => $db,
 
         'urlManager' => [
-            // 'enablePrettyUrl' => true,
-            // 'showScriptName' => false,
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
             'rules' => [
                 'lien-he.html' => 'site/contact', // Replace 'site/contact' with your actual controller/action
 
