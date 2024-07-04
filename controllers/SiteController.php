@@ -111,7 +111,7 @@ class SiteController extends Controller
         $model = new ContactForm();
         $model_contact = new Contact();
         // $model->contact(Yii::$app->params['adminEmail'])
-
+        // $data = Yii::$app->request->post()['ContactForm'];
         if ($model->load(Yii::$app->request->post()) && $model_contact->load($_POST, 'ContactForm') && $model_contact->save()) {
             Yii::$app->session->setFlash('contactFormSubmitted');
             // Yii::$app->request->parsers['json'] = JsonParser::class; // Enable JSON parsing

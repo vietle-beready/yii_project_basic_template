@@ -5,7 +5,9 @@
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
-
+    <h2 class=" mt-20 text-4xl font-medium text-center">
+        hello i use tailwind css
+    </h2>
     <div class="jumbotron text-center bg-transparent mt-5 mb-5">
         <h1 class="display-4">Congratulations!</h1>
 
