@@ -1,4 +1,10 @@
 <?php
+
+use Symfony\Component\Dotenv\Dotenv;
+
+$dotenv = new Dotenv();
+$dotenv->load(__DIR__ . '/../.env');
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -28,11 +34,28 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        // 'mailer' => [
+        //     'class' => \yii\symfonymailer\Mailer::class,
+        //     'transport' => [
+        //         'scheme' => 'smtps',
+        //         'host' => '',
+        //         'username' => $_ENV['SMTP_USERNAME'],
+        //         'password' => $_ENV['SMTP_PASSWORD'],
+        //         'port' => 465,
+        //         'dsn' => 'native://default',
+        //     ],
+        //     // 'viewPath' => '@common/mail',
+        //     // send all mails to a file by default. You have to set
+        //     // 'useFileTransport' to false and configure transport
+        //     // for the mailer to send real emails.
+        //     'useFileTransport' => false,
+        // ],
         'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'viewPath' => '@app/mail',
-            // send all mails to a file by default.
-            'useFileTransport' => true,
+            'class' => 'yii\symfonymailer\Mailer',
+            'useFileTransport' => false,
+            'transport' => [
+                'dsn' => "smtp://{$_ENV['SMTP_USERNAME']}:{$_ENV['SMTP_PASSWORD']}@smtp.gmail.com:587",
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

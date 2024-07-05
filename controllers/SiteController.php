@@ -110,18 +110,10 @@ class SiteController extends Controller
     {
         $model = new ContactForm();
         $model_contact = new Contact();
-        // $model->contact(Yii::$app->params['adminEmail'])
-        // $data = Yii::$app->request->post()['ContactForm'];
-        if ($model->load(Yii::$app->request->post()) && $model_contact->load($_POST, 'ContactForm') && $model_contact->save()) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-            // Yii::$app->request->parsers['json'] = JsonParser::class; // Enable JSON parsing
-            // $data = Yii::$app->request->post();
 
-            // if ($model_contact->load($_POST, 'ContactForm') && $model_contact->save()) {
-            //     var_dump('Contact saved successfully!');
-            // } else {
-            //     var_dump('Error saving contact: ' . print_r($model_contact->getErrors(), true));
-            // }
+
+        if ($model->load(Yii::$app->request->post()) &&  $model->contact($model->email) && $model_contact->load($_POST, 'ContactForm') && $model_contact->save()) {
+            Yii::$app->session->setFlash('contactFormSubmitted');
             return $this->refresh();
         }
         return $this->render('contact', [
