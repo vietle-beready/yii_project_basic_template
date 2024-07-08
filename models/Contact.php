@@ -7,8 +7,7 @@ use Yii;
 /**
  * This is the model class for table "contact".
  *
- * @property string $email
- * @property string $name
+ * @property int $userId    
  * @property string $subject
  * @property text $body
  */
@@ -28,8 +27,7 @@ class Contact extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email', 'name', 'subject', 'body'], 'required'],
-            [['email'], 'unique'],
+            [['userId', 'subject', 'body'], 'required'],
         ];
     }
 
@@ -39,10 +37,9 @@ class Contact extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'email' => 'Email',
-            'name' => 'Name',
+            'userId' => 'User ID',
             'subject' => 'Subject',
-            'body' => 'Body',
+            'body' => 'Body'
         ];
     }
 }

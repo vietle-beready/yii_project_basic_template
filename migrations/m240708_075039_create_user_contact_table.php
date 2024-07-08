@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%contact}}`.
+ * Handles the creation of table `{{%user_contact}}`.
  */
-class m240703_022224_create_contact_table extends Migration
+class m240708_075039_create_user_contact_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -16,17 +16,15 @@ class m240703_022224_create_contact_table extends Migration
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
-        $this->createTable('{{%contact}}', [
+        $this->createTable('{{%user_contact}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'email' => $this->string()->notNull(),
-            'subject' => $this->string()->notNull(),
-            'body' => $this->text()->notNull(),
         ], $tableOptions);
 
         $this->createIndex(
             'idx-contact-email',
-            'contact',
+            'user_contact',
             'email'
         );
     }
@@ -36,6 +34,6 @@ class m240703_022224_create_contact_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%contact}}');
+        $this->dropTable('{{%user}}');
     }
 }

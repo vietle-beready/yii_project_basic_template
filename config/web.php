@@ -2,6 +2,9 @@
 
 use Symfony\Component\Dotenv\Dotenv;
 
+use yii\queue\ExecEvent; // Add this line to import the ExecEvent class
+use app\models\SendEmailJob;
+
 $dotenv = new Dotenv();
 $dotenv->load(__DIR__ . '/../.env');
 
@@ -67,7 +70,13 @@ $config = [
             ],
         ],
         'db' => $db,
-
+        'queue' => [
+            'class' => '\yii\queue\db\Queue',
+            'db' => 'db', // DB connection component or its config 
+            'tableName' => '{{%queue}}', // Table name
+            'channel' => 'default', // Queue channel key
+            'mutex' => \yii\mutex\MysqlMutex::class, // Mutex used to sync queries,
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -86,6 +95,9 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
+        'panels' => [
+            'queue' => \yii\queue\debug\Panel::class,
+        ],
         // uncomment the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
     ];

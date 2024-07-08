@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use app\models\SendEmailJob;
+
 
 /**
  * ContactForm is the model behind the contact form.
@@ -28,7 +30,7 @@ class ContactForm extends Model
             // email has to be a valid email address
             ['email', 'email'],
             // verifyCode needs to be entered correctly
-            // ['verifyCode', 'captcha'],
+            ['verifyCode', 'captcha'],
         ];
     }
 
@@ -47,22 +49,18 @@ class ContactForm extends Model
      * @param string $email the target email address
      * @return bool whether the model passes validation
      */
-    public function contact($email)
+    public function contact()
     {
         if ($this->validate()) {
-            // Yii::$app->mailer->compose()
-            //     ->setTo($email)
-            //     ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
-            //     ->setReplyTo([$this->email => $this->name])
-            //     ->setSubject($this->subject)
-            //     ->setTextBody($this->body)
-            //     ->send();
-            Yii::$app->mailer->compose()
-                ->setFrom('viet.le@beready.academy')
-                ->setTo($this->email)
-                ->setSubject($this->subject)
-                ->setTextBody($this->body)
-                ->send();
+            $email = new SendEmailJob([
+                'to' => $this->email,
+                'subject' => $this->subject,
+                'body' => $this->body,
+            ]);
+
+            if (!Yii::$app->queue->push($email)) {
+                return false;
+            }
             return true;
         }
         return false;

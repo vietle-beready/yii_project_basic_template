@@ -8,6 +8,22 @@ $this->title = 'My Yii Application';
     <h2 class=" mt-20 text-4xl font-medium text-center">
         hello i use tailwind css
     </h2>
+    <!-- <div x-data="{ open: false }" class="px-20">
+        <div class="my-4">
+            <button type="button" x-on:click="open =! open" class="bg-red-200 rounded-lg px-4 py-2">Toggle</button>
+        </div>
+        <div x-show="open" x-transition class="p-4 bg-slate-100 rounded-md">
+            fd
+        </div>
+    </div> -->
+
+    <div x-data="{tab: 'foo'}">
+        <button :class="tab == 'foo' ? 'bg-red-200' : 'bg-slate-100'" @click="tab='foo'"> Foo </button>
+        <button :class="tab == 'bar' ? 'bg-red-200' : 'bg-slate-100'" @click="tab='bar' "> Thanh </button>
+
+        <div x-show="tab === 'foo' "> Tab Foo </div>
+        <div x-show="tab === 'bar' "> Thanh tab </div>
+    </div>
     <div class="jumbotron text-center bg-transparent mt-5 mb-5">
         <h1 class="display-4">Congratulations!</h1>
 
