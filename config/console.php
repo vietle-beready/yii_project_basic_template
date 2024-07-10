@@ -1,8 +1,5 @@
 <?php
 
-use yii\queue\ExecEvent; // Add this line to import the ExecEvent class
-use app\models\SendEmailJob;
-
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -25,7 +22,10 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['info', 'error', 'warning', 'trace'],
+                    'logFile' => '@runtime/logs/queue.log',
+                    'categories' => ['yii\queue\Queue', 'queue'],
+                    'logVars' => [],
                 ],
             ],
         ],

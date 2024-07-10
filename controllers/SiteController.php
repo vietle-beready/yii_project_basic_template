@@ -10,9 +10,9 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Contact;
-use app\models\UserContact;
 use app\models\EntryForm;
 
+use function Psy\info;
 
 class SiteController extends Controller
 {
@@ -110,30 +110,13 @@ class SiteController extends Controller
     public function actionContact()
     {
         $model = new ContactForm();
-
+        $model_contact = new Contact();
         if ($model->load($_POST, 'ContactForm')) {
-            $formData = $_POST['ContactForm'];
-            $isSuccess = true;
-            $model_contact = new Contact();
-            $model_user = new UserContact();
-            $user = UserContact::findUserByEmail($formData['email']);
-
-            $model_contact->subject = $formData['subject'];
-            $model_contact->body = $formData['body'];
-
-            if (!$user->exists()) {
-                $model_user->email = $formData['email'];
-                $model_user->name = $formData['name'];
-                $model_contact->userId = $model_user->id;
-                $isSuccess = $model_user->save() && $model_contact->save() && $model->contact();
-            } else {
-                $model_contact->userId = $user->one()->id;
-                $isSuccess = $model_contact->save() && $model->contact();
-            }
-
-            if ($isSuccess) {
-                Yii::$app->session->setFlash('contactFormSubmitted');
-                return $this->refresh();
+            if ($model_contact->load($_POST, 'ContactForm') && $model_contact->save()) {
+                if ($model->contact()) {
+                    Yii::$app->session->setFlash('contactFormSubmitted');
+                    return $this->refresh();
+                }
             }
         }
         return $this->render('contact', [

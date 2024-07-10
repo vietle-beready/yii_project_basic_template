@@ -18,18 +18,16 @@ class m240708_075204_create_contact_table extends Migration
         }
         $this->createTable('{{%contact}}', [
             'id' => $this->primaryKey(),
-            'userId' => $this->integer()->notNull(),
+            'name' => $this->string()->notNull(),
+            'email' => $this->string()->notNull(),
             'subject' => $this->string()->notNull(),
             'body' => $this->text()->notNull(),
         ], $tableOptions);
 
-        $this->addForeignKey(
-            '{{%fk-contact-user_id}}',
-            '{{%contact}}',
-            'userId',
-            '{{%user_contact}}',
-            'id',
-            'CASCADE'
+        $this->createIndex(
+            'idx-contact-email',
+            'contact',
+            'email'
         );
     }
 

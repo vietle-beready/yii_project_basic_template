@@ -1,13 +1,4 @@
 <?php
-
-use Symfony\Component\Dotenv\Dotenv;
-
-use yii\queue\ExecEvent; // Add this line to import the ExecEvent class
-use app\models\SendEmailJob;
-
-$dotenv = new Dotenv();
-$dotenv->load(__DIR__ . '/../.env');
-
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -37,22 +28,6 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        // 'mailer' => [
-        //     'class' => \yii\symfonymailer\Mailer::class,
-        //     'transport' => [
-        //         'scheme' => 'smtps',
-        //         'host' => '',
-        //         'username' => $_ENV['SMTP_USERNAME'],
-        //         'password' => $_ENV['SMTP_PASSWORD'],
-        //         'port' => 465,
-        //         'dsn' => 'native://default',
-        //     ],
-        //     // 'viewPath' => '@common/mail',
-        //     // send all mails to a file by default. You have to set
-        //     // 'useFileTransport' to false and configure transport
-        //     // for the mailer to send real emails.
-        //     'useFileTransport' => false,
-        // ],
         'mailer' => [
             'class' => 'yii\symfonymailer\Mailer',
             'useFileTransport' => false,
@@ -65,7 +40,10 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['info', 'error', 'warning', 'trace'],
+                    'logFile' => '@runtime/logs/queue.log',
+                    'categories' => ['yii\queue\Queue', 'queue'],
+                    'logVars' => [],
                 ],
             ],
         ],
