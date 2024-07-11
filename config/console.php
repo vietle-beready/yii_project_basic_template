@@ -18,6 +18,17 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        // 'log' => [
+        //     'targets' => [
+        //         [
+        //             'class' => 'yii\log\FileTarget',
+        //             'levels' => ['info', 'error', 'warning', 'trace'],
+        //             'logFile' => '@runtime/logs/queue.log',
+        //             'categories' => ['yii\queue\Queue', 'queue'],
+        //             'logVars' => [],
+        //         ],
+        //     ],
+        // ],
         'log' => [
             'targets' => [
                 [
@@ -27,6 +38,24 @@ $config = [
                     'categories' => ['yii\queue\Queue', 'queue'],
                     'logVars' => [],
                 ],
+
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'enabled' => true,
+                    'categories' => ['api', 'cron', 'yii\queue\Queue', 'queue', 'collection', 'firewall'],
+                    'levels' => ['error', 'warning', 'trace'],
+                    'enableRotation' => true,
+                    'logFile' => '@runtime/logs/queue.log',
+                    'logVars' => [],
+                ],
+
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning', 'trace'],
+                    'logVars' => [],
+                    'logFile' => '@runtime/logs/commands.log',
+                    'enabled' => true,
+                ]
             ],
         ],
         'db' => $db,
@@ -34,7 +63,11 @@ $config = [
             'class' => 'yii\symfonymailer\Mailer',
             'useFileTransport' => false,
             'transport' => [
-                'dsn' => "smtp://{$_ENV['SMTP_USERNAME']}:{$_ENV['SMTP_PASSWORD']}@smtp.gmail.com:587",
+                'dsn' => "smtps://{$_ENV['SMTP_USERNAME']}:{$_ENV['SMTP_PASSWORD']}@smtp.gmail.com:465",
+                'options' => [
+                    'verify_peer' => 0,
+                    'verify_peer_name' => 0,
+                ],
             ],
         ],
         'queue' => [

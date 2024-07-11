@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\jobs;
 
 use Yii;
 use yii\db\ActiveRecord;
@@ -21,7 +21,7 @@ class FailedJob extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'failed_job';
+        return 'queue_failed';
     }
 
     /**
@@ -30,10 +30,9 @@ class FailedJob extends ActiveRecord
     public function rules()
     {
         return [
-            [['job_id', 'data', 'created_at'], 'required'],
-            [['data', 'error_message'], 'string'],
-            [['created_at'], 'integer'],
-            [['job_id'], 'string', 'max' => 255],
+            [['job_id', 'created_at', 'error_message'], 'required'],
+            [['error_message'], 'string'],
+            [['job_id', 'created_at'], 'integer'],
         ];
     }
 
@@ -45,7 +44,6 @@ class FailedJob extends ActiveRecord
         return [
             'id' => 'ID',
             'job_id' => 'Job ID',
-            'data' => 'Data',
             'error_message' => 'Error Message',
             'created_at' => 'Created At',
         ];
